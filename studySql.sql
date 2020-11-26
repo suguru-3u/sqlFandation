@@ -72,3 +72,56 @@ SELECT * FROM 口座
    AND 名義 like 'エ__　%コ'
 
 select distinct 入金額 from 家計簿
+
+select * from 家計簿
+order by 日付 desc
+
+select * from 家計簿
+order by 入金額 desc , 出金額 desc
+
+select * from 家計簿
+order by 出金額 desc
+limit 3
+
+select 費目,入金額,出金額 from 家計簿
+union
+select 費目,入金額,出金額 from 家計簿アーカイブ
+order by 出金額 
+
+select 費目,入金額,出金額 from 家計簿
+EXCEPT
+select 費目,入金額,出金額 from 家計簿アーカイブ
+
+select 費目 from 家計簿
+intersect
+select 費目 from 家計簿アーカイブ
+
+1
+select * from 注文テーブル
+order by 注文番号 ASC,注文枝番 ASC
+
+2
+select distinct 商品名 from 注文テーブル
+where 日付 <= '2018-01-01' and 日付 >= '2018-01-31'
+order by 商品名
+
+3
+select 注文番号,注文枝番,注文金額 from 注文テーブル
+where 分類 = '1' 
+order by 注文金額 
+
+4
+select 日付 ,商品名,単価,数量,注文金額 from 注文テーブル
+where 分類 = '2' and 数量 >= 2
+order by 購入日,数量 desc
+
+5 
+select 分類,商品名,サイズ,単価 from 注文テーブル
+where 分類 = '1'
+UNION
+select 分類,商品名,null,単価 from 注文テーブル
+where 分類 = '2'
+UNION
+select 分類,商品名,null,単価 from 注文テーブル
+where 分類 = '3'
+order by 分類,商品名
