@@ -125,3 +125,13 @@ UNION
 select 分類,商品名,null,単価 from 注文テーブル
 where 分類 = '3'
 order by 分類,商品名
+
+select 口座番号　from 口座テーブル
+order by 口座番号
+
+select distinct 名義 from 口座テーブル
+order by 名義
+
+SELECT 口座番号, 名義, 種別, 残高, 更新日
+  FROM 口座
+ ORDER BY 4 DESC, 1
