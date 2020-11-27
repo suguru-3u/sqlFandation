@@ -191,5 +191,34 @@ SELECT 口座番号, 名義, '×' AS 口座区分
 select 出金額,出金額 + 100 as aaa,'SQL' as aaaa
 from 家計簿
 
+insert into 家計簿(出金額)
+values(1000+150)
 
+update 家計簿
+set 出金額 = 出金額 + 100
+
+select 費目,出金額,
+  case 費目 when '居住費' then '固定費'
+            when '水道光熱費' then '固定費'
+            else '変動費'
+          end AS 出費の分類
+from 家計簿 where 出金額 > 0
+
+select メモ ,Length(メモ) AS　メモの長さ
+from 家計簿
+
+select メモ,trim(メモ) as 空白除去したメモ
+from 家計簿
+
+update 家計簿
+set メモ = REPLACE(メモ,'購入','買った')
+
+select メモ ,SUBSTRING(メモ,'購入',3)
+from 家計簿
+
+select 出金額,ROUND(出金額,-2)
+from 家計簿
+
+insert into 家計簿
+values (current_date,'食費','ドーナツを買った',0,260)
 
