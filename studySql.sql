@@ -222,3 +222,6 @@ from 家計簿
 insert into 家計簿
 values (current_date,'食費','ドーナツを買った',0,260)
 
+update 受験者テーブル
+set 午後1 = 320 - (86 + 68 + 92)
+where 受験者１ID = SW1046
