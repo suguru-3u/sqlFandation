@@ -270,22 +270,80 @@ select 口座番号,残高 / 1000 as 千円単位の残高
 from 口座
 where 残高 >= 1000000
 
+INSERT INTO 口座(口座番号, 名義, 種別, 残高, 更新日)
+     VALUES ('0652281', 'タカギ　ノブオ', '1', 100000 + 3000, '2018-04-01');
+INSERT INTO 口座(口座番号, 名義, 種別, 残高, 更新日)
+     VALUES ('1026413', 'マツモト　サワコ', '1', 300000 + 3000, '2018-04-02');
+INSERT INTO 口座(口座番号, 名義, 種別, 残高, 更新日)
+     VALUES ('2239710', 'ササキ　シゲノリ', '1', 1000000 + 3000, '2018-04-03');
 
+update 口座
+set 残高 = (残高 - 3000) * 0.3
+where 口座番号 = 0652281
 
+UPDATE 口座
+   SET 残高 = (残高 - 3000) * 1.003
+ WHERE 口座番号 IN ('0652281','1026413', '2239710')
 
+SELECT 口座番号, 更新日, 更新日 + 180 AS 通帳期限日
+  FROM 口座
+ WHERE 更新日 < '2017-01-01'
 
+SELECT 口座番号, 'カ）' || 名義 AS 名義
+  FROM 口座
+ WHERE 種別 = '3'
 
+SELECT DISTINCT 種別 AS 種別コード,
+       CASE 種別 WHEN '1' THEN '普通'
+	             WHEN '2' THEN '当座'
+				 WHEN '3' THEN '別段' END AS 種別名
+  FROM 口座
 
+SELECT 口座番号, 名義,
+       CASE WHEN 残高 < 100000 THEN 'C'
+	        WHEN 残高 >= 100000
+			 AND 残高 < 1000000 THEN 'B'
+			ELSE 'A' END AS 残高ランク
+  FROM 口座
 
+SELECT LENGTH(口座番号), LENGTH(REPLACE(名義, '　', '')), LENGTH(CAST(残高 AS VARCHAR))
+  FROM 口座
 
+SELECT * FROM 口座
+ WHERE SUBSTRING(名義, 1, 5) LIKE '%カワ%'
 
+SELECT * FROM 口座
+ WHERE LENGTH(CAST(残高 AS VARCHAR)) >= 4
+   AND SUBSTRING(CAST(残高 AS VARCHAR), LENGTH(CAST(残高 AS VARCHAR))-2, 3) = '000'
 
+select 口座番号,残高,FLOOR(残高 * 1.0002) as 利息
+from 口座
 
+select 口座番号,残高,
+case when 残高 < 500000 then FLOOR(残高 * 0.0001)
+when 残高 >= 500000 and 残高 < 2000000 
+then FLOOR(残高 * 0.0002)
+when 残高 >= 2000000 then FLOOR(残高 * 0.0003)
+end as 残高別利息
+from 口座 
+order by 残高別利息 desc ,口座番号
 
+insert into 口座(口座番号,名義,種別,残高,更新日)
+values(0351262,'イトカワ ダイ','2',635110,date('now'))
 
+select 口座番号 ,更新日
+from 口座
+where 更新日 > '2018-01-01'
 
+SELECT 口座番号, 名義, 種別, 残高,
+       SUBSTRING(CAST(更新日 AS VARCHAR), 1, 4) || '年' ||
+	   SUBSTRING(CAST(更新日 AS VARCHAR), 6, 2) || '月' ||
+	   SUBSTRING(CAST(更新日 AS VARCHAR), 9, 2) || '日' AS 更新日
+  FROM 口座
+ WHERE 更新日 >= '2018-01-01'
 
-
+select 口座番号,名義,種別,残高,COALESCE(cast(更新日 as VARCHAR),'設定なし') as 更新日
+from 口座
 
 
 
