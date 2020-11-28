@@ -225,3 +225,79 @@ values (current_date,'食費','ドーナツを買った',0,260)
 update 受験者テーブル
 set 午後1 = 320 - (86 + 68 + 92)
 where 受験者１ID = SW1046
+
+問題1
+update 試験結果 as 合格者ID 
+from 試験結果
+where 午前 >= 60 
+and (午後1 + 午後2) >= 120
+and 論述 >= (午前 + 午後1 + 午後2 + 論述) * 0.3
+
+問題2
+2-1
+update 回答者
+set 国名 = case 
+substring(Trim(メールアドレス),length(trim(メールアドレス))-1 2)
+when 'jp' then '日本'
+end
+
+2-2
+select TRIM(メールアドレス),性別 || ':' || 年齢
+from 回答者
+
+問題3
+5-1
+update 受注
+set 文字数 = length(REPLACE(文字,' ',''))
+
+5-2
+select 受注日,受注ID,文字数
+case COALESCE(書体コード,'1')
+when '1' then 'ブロック体' end as 書体名,
+case COALESCE(書体コード,'1')
+when '1' then 100 end as 単価,
+case when 文字数 10 > then 500
+else 0 end as 特別加工料
+from 受注
+order by 受注日,受注ID
+
+5-3
+update 受注
+set 文字 = REPLACE(文字,' ',*)
+where 受注ID = 113
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
