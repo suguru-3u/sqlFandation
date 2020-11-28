@@ -266,7 +266,9 @@ update 受注
 set 文字 = REPLACE(文字,' ',*)
 where 受注ID = 113
 
-
+select 口座番号,残高 / 1000 as 千円単位の残高
+from 口座
+where 残高 >= 1000000
 
 
 
