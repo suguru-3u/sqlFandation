@@ -479,8 +479,10 @@ where 出金額 = (select Max(出金額) from 家計簿)
 
 update 家計簿集計
 set 平均 = (select Avg(出金学)
-            from 家計簿アーカイブ)
-
+            from 家計簿アーカイブ
+            where 出金額 > 0
+            and 費目 = '食費')
+where 費目 = '食費'
 
 
 
