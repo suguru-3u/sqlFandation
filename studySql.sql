@@ -345,6 +345,10 @@ SELECT 口座番号, 名義, 種別, 残高,
 select 口座番号,名義,種別,残高,COALESCE(cast(更新日 as VARCHAR),'設定なし') as 更新日
 from 口座
 
+select sum(出金額) as 出金の合計
+from 家計簿
+
+
 
 
 
