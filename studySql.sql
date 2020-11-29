@@ -348,6 +348,56 @@ from 口座
 select sum(出金額) as 出金の合計
 from 家計簿
 
+select avg(COALESCE(出金額,0)) as 出金額の平均
+from 家計簿
+
+select 費目,sum(出金額) as 費目別の出金額合計
+from 家計簿
+GROUP by 費目
+
+select 費目,sum(出金額) as 費目別の出金額合計
+from 家計簿
+GROUP by 費目
+Having sum(出金学) > 0
+
+問題1
+1-1
+select sum(降水量) as 年間降水量,avg(最高気温),
+avg(最低気温)
+from 都市別気象観測
+
+1-2
+select sum(降水量) as 年間降水量,avg(最高気温),
+avg(最低気温)
+from 都市別気象観測
+where 都市名 = '東京'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
