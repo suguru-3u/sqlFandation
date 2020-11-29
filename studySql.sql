@@ -505,11 +505,21 @@ where 出金額 > 0
 GROUP by 費目
 
 問題3
+3-1
 insert into 頭数(飼育県,頭数)
 select 飼育県,count(*) AS 頭数
 from 個体識別
 GROUP by 飼育県
 
+3-2
+select a.飼育県 AS 都道府県名,a.個体識別,
+case a.雌雄 when '1' then 'オス'
+when '2' then 'メス' end
+from (select 飼育県,count(*) AS 頭数
+from 個体識別
+GROUP by 飼育県) as a
+
+3-3
 
 
 
