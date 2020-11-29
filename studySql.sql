@@ -474,8 +474,12 @@ SELECT SUBSTRING(名義, 1, 1) AS 名義,
 HAVING COUNT(名義) >= 10
     OR AVG(LENGTH(REPLACE(名義, '　', ''))) > 5
 
+select 費目,出金額 from 家計簿
+where 出金額 = (select Max(出金額) from 家計簿)
 
-
+update 家計簿集計
+set 平均 = (select Avg(出金学)
+            from 家計簿アーカイブ)
 
 
 
