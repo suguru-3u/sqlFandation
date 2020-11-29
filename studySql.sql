@@ -431,16 +431,48 @@ GROUP by 日付
 select sum(残高),MAX(残高),MIN(残高),AVG(残高),count(残高),
 from 口座
 
+select count(*)
+from 口座
+where 種別 <> '1' and 残高 >= 1000000
+and 更新日 < '2017-01-01'
 
+SELECT COUNT(*) - COUNT(更新日) AS 更新日が登録されていない件数
+  FROM 口座
 
+SELECT MAX(名義), MIN(名義)
+  FROM 口座
 
+select Max(更新日),MIN(更新日)
+from 口座
 
+select 
+CASE sum(残高),Max(残高),Min(残高),Avg(残高),count(残高)
+from 口座
+GROUP by 種別
 
+SELECT SUBSTRING(口座番号, 7, 1) AS 口座番号グループ, COUNT(*) AS 件数
+  FROM 口座
+ GROUP BY SUBSTRING(口座番号, 7, 1)
+ ORDER BY 件数 DESC
 
+SELECT SUBSTRING(COALESCE(CAST(更新日 AS VARCHAR), 'XXXX'), 1, 4) AS 更新年,
+       SUM(残高) AS 合計, MAX(残高) AS 最大, MIN(残高) AS 最小,
+       AVG(残高) AS 平均, COUNT(*) AS 件数
+  FROM 口座
+ GROUP BY SUBSTRING(COALESCE(CAST(更新日 AS VARCHAR), 'XXXX'), 1, 4)
 
+SELECT 種別, SUM(残高) AS 合計, COUNT(*) AS 件数
+  FROM 口座
+ GROUP BY 種別
+HAVING SUM(残高) > 3000000
 
-
-
+SELECT SUBSTRING(名義, 1, 1) AS 名義,
+       COUNT(名義) AS 件数,
+	   AVG(LENGTH(REPLACE(名義, '　', ''))) AS 文字数の平均
+  FROM 口座
+ GROUP BY SUBSTRING(名義, 1, 1)
+HAVING COUNT(名義) >= 10
+    OR AVG(LENGTH(REPLACE(名義, '　', ''))) > 5
 
 
 
