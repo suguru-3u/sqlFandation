@@ -428,10 +428,8 @@ from 入退室管理
 where 事由区分 = '3'
 GROUP by 日付
 
-
-
-
-
+select sum(残高),MAX(残高),MIN(残高),AVG(残高),count(残高),
+from 口座
 
 
 
