@@ -484,6 +484,40 @@ set 平均 = (select Avg(出金学)
             and 費目 = '食費')
 where 費目 = '食費'
 
+select 日付,メモ,出金額,
+  (select 合計 from 家計簿集計
+  where 費目 = '食費') as 過去の合計
+from 家計簿アーカイブ
+where 費目 = '食費'
+
+select * from 家計簿集計
+where 費目 in (select distinct 費目 from 家計簿)
+
+select * from 家計簿
+where 費目 = '食費'
+and 出金額 < ANY (select 出金額 from 家計簿アーカイブ
+                where 費目 = '食費')
+
+insert into 家計簿集計(費目,合計,平均,回数)
+select 費目,sum(出金額),Avg(出金額),0
+from 家計簿
+where 出金額 > 0
+GROUP by 費目
+
+問題3
+insert into 頭数(飼育県,頭数)
+select 飼育県,count(*) AS 頭数
+from 個体識別
+GROUP by 飼育県
+
+
+
+
+
+
+
+
+
 
 
 
