@@ -372,6 +372,84 @@ avg(最低気温)
 from 都市別気象観測
 where 都市名 = '東京'
 
+1-3
+select avg(降水量),Max(最高気温),Min(最低気温)
+from 都市別気象観測
+GROUP by 都市名
+
+1-4
+select avg(降水量),avg(最高気温),avg(最低気温)
+from 都市別気象観測
+GROUP by 月別
+
+1-5
+select 都市名,Max(最高気温)
+from 都市別気象観測
+GROUP by 都市名
+Having by 最高気温　> 38
+
+1-6
+select 都市名,Max(最高気温)
+from 都市別気象観測
+GROUP by 都市名
+Having by 最高気温　< -10
+
+問題2
+2-1
+select count(*) as 社員数
+from 入退室管理
+where 退出 = NULL
+
+2-2
+select 社員名,count(*) as 入室回数
+from 入退室管理
+GROUP by 社員名
+ORDER by 入室回数　desc
+
+2-3
+select 
+CASE count(事由区分) WHEN '1' THEN 'メンテナンス'
+	             WHEN '2' THEN 'リリース作業'
+				 WHEN '3' THEN '障害対応' 
+         WHEN '3' THEN 'その他' END
+         ,count(*) as 入室回数
+from 入退室管理
+GROUP by 事由区分
+
+2-4
+select 社員名,count(*) as 入室回数
+from 入退室管理
+GROUP by 社員名
+Having by count(*) > 10
+
+2-5
+select 日付,count(社員数)
+from 入退室管理
+where 事由区分 = '3'
+GROUP by 日付
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
