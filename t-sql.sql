@@ -17,3 +17,17 @@ print len('aaa')
 print datalength('aaa')
 
 print charindex('b','aaaba',1)
+
+print cast('1000' as int)
+
+print convert(int ,'1000');
+
+print 1/3
+
+print 1.0/3.0
+
+print round(123.456,-2)
+
+print floor(123.456)
+
+print ceiling(123.456)
