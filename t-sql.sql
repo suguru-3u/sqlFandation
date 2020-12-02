@@ -56,3 +56,52 @@ Values(4,'d',77,66,77,66,99);
 
 insert into[成績]
 Values(5,'e',77,66,77,66,99);
+
+select avg(distinct 国語) as 国語の平均点 
+from 成績
+
+select 
+(
+	(select Max(国語) from 
+		(select top 50 percent [国語] from 成績 order by [国語]) as [下位])
+	+
+	(select Min(国語) from 
+		(select top 50 percent [国語] from 成績 order by [国語]) as [上位])
+) /2 as [中央値];
+
+create table[点数]
+(
+	[コード] int
+	,[氏名] nvarchar(10)
+	,[点]int
+);
+
+insert into[点数]
+values(1,'a',98);
+
+insert into[点数]
+values(2,'b',100);
+
+insert into[点数]
+values(3,'c',95);
+
+insert into[点数]
+values(4,'d',99);
+
+insert into[点数]
+values(5,'e',98);
+
+insert into[点数]
+values(6,'f',92);
+
+insert into[点数]
+values(7,'g',92);
+
+insert into[点数]
+values(8,'h',96);
+
+insert into[点数]
+values(9,'a',99);
+
+insert into[点数]
+values(10,'a',91);
