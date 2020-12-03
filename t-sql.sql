@@ -112,3 +112,145 @@ select [コード],[氏名],[点]
 ,NTILE(6) over(order by[点] desc) as '結果3'
 from [点数]
 order by [コード];
+
+print cast(current_timestamp as varchar);
+
+print convert(varchar,current_timestamp,120);
+
+create table 作業単位(
+	開始日付 datetime
+	,終了日付 datetime
+)
+
+insert into 作業単位
+values(convert(datetime,'2019-01-01')
+,convert(datetime,'2019-01-31'));
+
+select * from sys.objects;
+
+declare @ホーム負数 int
+
+DECLARE CUR_AAA CURSOR FOR
+select 
+	count(ost.w)
+	from bbsn_off_sum_team_tb ost
+	INNER JOIN bbm1_cup_tb c on  c.cup_id = 30038 and c.year_id = ost.year_id
+	where home_away_sec = 1
+	AND ost.game_kind_id in(1,2)
+	AND ost.is_deleted = 0
+	AND c.is_deleted = 0
+	group by ost.team_name,team_id
+	order by ost.team_id
+
+	--カーソルオープン
+OPEN CUR_AAA;
+
+--最初の1行目を取得して変数へ値をセット
+FETCH NEXT FROM CUR_AAA
+INTO @ホーム負数;
+
+--データの行数分ループ処理を実行する
+WHILE @@FETCH_STATUS = 0
+BEGIN
+
+	-- ========= ループ内の実際の処理 ここから===
+
+	print @ホーム負数
+
+	-- ========= ループ内の実際の処理 ここまで===
+
+
+	--次の行のデータを取得して変数へ値をセット
+	FETCH NEXT FROM CUR_AAA
+	INTO @ホーム負数;
+
+END
+
+--カーソルを閉じる
+CLOSE CUR_AAA;
+DEALLOCATE CUR_AAA;
+
+
+--ホームでの勝ち数
+	select 
+		@ホーム勝数 = count(ost.w)
+	
+	INNER JOIN bbm1_cup_tb c on  c.cup_id = @カップID and c.year_id = ost.year_id
+	where home_away_sec = 1
+	AND ost.game_kind_id in(1,2)
+	AND ost.is_deleted = 0
+	AND c.is_deleted = 0
+	group by ost.team_name,team_id
+	order by ost.team_id
+
+	--ビジターでの勝ち数
+	select 
+		@ビジター勝数 = count(ost.w)
+	
+	INNER JOIN bbm1_cup_tb c on  c.cup_id = @カップID and c.year_id = ost.year_id
+	where home_away_sec = 2
+	AND ost.game_kind_id in(1,2)
+	AND ost.is_deleted = 0
+	AND c.is_deleted = 0
+	group by ost.team_name,team_id
+	order by ost.team_id
+
+	--ホームでの負け数
+	select 
+		@ホーム負数 = count(ost.w)
+	
+	INNER JOIN bbm1_cup_tb c on  c.cup_id = @カップID and c.year_id = ost.year_id
+	where home_away_sec = 1
+	AND ost.game_kind_id in(1,2)
+	AND ost.is_deleted = 0
+	AND c.is_deleted = 0
+	group by ost.team_name,team_id
+	order by ost.team_id
+
+	--ビジターでの負け数
+	select 
+		@ホーム勝数 = l
+	
+	where home_away_sec = 2
+	AND is_deleted = 0
+
+
+	INSERT @retFindReports
+	SELECT 
+		@試合日付詳細 = game_date / 10000
+		,@試合日 = game_date
+		, 試合種別ID
+		,@チームID = team_id
+		,@順位 = rank
+		,@差 = gb_from_leading_team
+		,@マジック = magic_number
+		,@試合数 =  g
+		,@残り試合数 = left_game
+		,@勝数 = w
+		, ホーム勝数
+		, ビジター勝数
+		,@負数 = l
+		, ホーム負数
+		, ビジター負数
+		, @引分数 = t
+		, ホーム引分数
+		, ビジター引分数
+		, @勝率 = wpct
+		, ホーム勝率
+		, ビジター勝率
+		, 打率
+		, ホーム打率
+		, ビジター打率
+		, 防御率
+		, ホーム防御率
+		, ビジター防御率
+		, 得点
+		, 失点
+		, 本塁打
+		, 盗塁
+		, 規定打席数
+		, 規定投球回数
+	
+	WHERE
+		試合日付 = dbo.getYYYYMMDD(DATEADD(d, -1, GETDATE()))
+		AND 削除F = 0
