@@ -105,3 +105,10 @@ values(9,'a',99);
 
 insert into[点数]
 values(10,'a',91);
+
+select [コード],[氏名],[点]
+,ROW_NUMBER() over(order by[点] desc) as '結果１'
+,RANK() over(order by[点] desc) as '結果2'
+,NTILE(6) over(order by[点] desc) as '結果3'
+from [点数]
+order by [コード];
